@@ -115,7 +115,7 @@ value will fail the build.Both passing and failing module statistics will be sho
 
 #### options.hideCoverageOnTestFailure
 Type: `Boolean`
-Default value: `false`
+Default value: undefined
 
 Whether coverage output should be suppressed if any tests fail.
 
