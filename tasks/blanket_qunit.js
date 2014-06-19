@@ -270,48 +270,49 @@ module.exports = function(grunt) {
                 },
                 // All tests have been run.
                 function() {
-
-                    grunt.log.writeln();
-                    grunt.log.writeln("Per-File Coverage Results: (" + coverageThreshold + "% minimum)");
-                  
-                    if (status.blanketFail > 0) {
-                        var failMsg = "FAIL : " + (status.blanketFail + "/" + status.blanketTotal + " files failed coverage");
-                        grunt.log.write(failMsg.red);
+                    if (!status.failed || !options.hideCoverageOnTestFailure) {
                         grunt.log.writeln();
-                        ok = false;
-                    } else {
-                        var blanketPassMsg = "PASS : " + status.blanketPass + " files passed coverage ";
-                        grunt.log.write(blanketPassMsg.green);
-                        grunt.log.writeln();
-                    }
+                        grunt.log.writeln("Per-File Coverage Results: (" + coverageThreshold + "% minimum)");
+                      
+                        if (status.blanketFail > 0) {
+                            var failMsg = "FAIL : " + (status.blanketFail + "/" + status.blanketTotal + " files failed coverage");
+                            grunt.log.write(failMsg.red);
+                            grunt.log.writeln();
+                            ok = false;
+                        } else {
+                            var blanketPassMsg = "PASS : " + status.blanketPass + " files passed coverage ";
+                            grunt.log.write(blanketPassMsg.green);
+                            grunt.log.writeln();
+                        }
 
-                    var moduleThreshold = grunt.option('moduleThreshold') || options.moduleThreshold;
+                        var moduleThreshold = grunt.option('moduleThreshold') || options.moduleThreshold;
 
-                    if (moduleThreshold) {
+                        if (moduleThreshold) {
 
-                        grunt.log.writeln();
+                            grunt.log.writeln();
 
-                        grunt.log.writeln("Per-Module Coverage Results: (" + moduleThreshold + "% minimum)");
+                            grunt.log.writeln("Per-Module Coverage Results: (" + moduleThreshold + "% minimum)");
 
-                        if (modulePatternRegex) {
-                            for (var thisModuleName in totals.moduleTotalStatements) {
-                                if (totals.moduleTotalStatements.hasOwnProperty(thisModuleName)) {
+                            if (modulePatternRegex) {
+                                for (var thisModuleName in totals.moduleTotalStatements) {
+                                    if (totals.moduleTotalStatements.hasOwnProperty(thisModuleName)) {
 
-                                    var moduleTotalSt = totals.moduleTotalStatements[thisModuleName];
-                                    var moduleTotalCovSt = totals.moduleTotalCoveredStatements[thisModuleName];
+                                        var moduleTotalSt = totals.moduleTotalStatements[thisModuleName];
+                                        var moduleTotalCovSt = totals.moduleTotalCoveredStatements[thisModuleName];
 
-                                    printPassFailMessage(thisModuleName, moduleTotalCovSt, moduleTotalSt, moduleThreshold, /*printPassing*/true);
+                                        printPassFailMessage(thisModuleName, moduleTotalCovSt, moduleTotalSt, moduleThreshold, /*printPassing*/true);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    var globalThreshold = grunt.option('globalThreshold') || options.globalThreshold;
+                        var globalThreshold = grunt.option('globalThreshold') || options.globalThreshold;
 
-                    if (globalThreshold) {
-                        grunt.log.writeln();
-                        grunt.log.writeln("Global Coverage Results: (" + globalThreshold + "% minimum)");
-                        printPassFailMessage("global", totals.coveredLines, totals.totalLines, globalThreshold, /*printPassing*/true);
+                        if (globalThreshold) {
+                            grunt.log.writeln();
+                            grunt.log.writeln("Global Coverage Results: (" + globalThreshold + "% minimum)");
+                            printPassFailMessage("global", totals.coveredLines, totals.totalLines, globalThreshold, /*printPassing*/true);
+                        }
                     }
                     grunt.log.writeln();
 

@@ -113,6 +113,12 @@ Default value: undefined
 The minimum percent coverage overall, averaged for all files.  An average coverage percentage below this 
 value will fail the build.Both passing and failing module statistics will be shown in the output.
 
+#### options.hideCoverageOnTestFailure
+Type: `Boolean`
+Default value: `false`
+
+Whether coverage output should be suppressed if any tests fail.
+
 
 ### Command Line Options
 
